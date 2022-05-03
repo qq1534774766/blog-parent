@@ -29,7 +29,7 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * 通过文章的id增加文章的阅读量，每次增加1，线程安全
      * @param id
      */
-    void increaseArticleViewCountById(Long id);
+    int increaseArticleViewCountById(Long id);
 
 
     /**

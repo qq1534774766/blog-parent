@@ -4,6 +4,8 @@ import com.aguo.blogadmin.pojo.Permission;
 import com.aguo.blogadmin.vo.AGuoResult;
 import com.aguo.blogadmin.vo.param.PageParam;
 
+import java.util.List;
+
 /**
  * @Author: aguo
  * @DateTime: 2022/5/3 16:21
@@ -22,4 +24,11 @@ public interface PermissionService {
     AGuoResult update(Permission permission);
 
     AGuoResult delete(String id);
+
+    /**
+     * 通过用户ID获得权限列表
+     * @param adminId
+     * @return
+     */
+    List<Permission> getPermissionByAdminId(Long adminId);
 }

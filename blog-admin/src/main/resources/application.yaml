@@ -31,4 +31,4 @@ mybatis-plus:
       # 驼峰命名法与下划线命名法映射
       table-underline: true
 #    mapper.xml扫描路径，注意mapper.xml文件放在resources中时，要与java中mapper.java目录一致
-  mapper-locations: classpath:com.aguo.blogapi.mapper.*
+  mapper-locations: classpath:com.aguo.blogadmin.mapper.*

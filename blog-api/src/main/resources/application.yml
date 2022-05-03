@@ -10,10 +10,10 @@ mybatis-plus:
     mapper-locations: classpath:com.aguo.blogapi.mapper.*
 
 qiniu:
-    accessKey: ...
-    accessSecretKey: ...
+    accessKey: hWg3eH6y0pmo20RibHPedHxq97C6xSz7l0MYtIxE
+    accessSecretKey: Uc-qUGZ8NbulZdZCyem3gLCFNAZkon00cP1854Sj
     bucket: aguoblog
-    url: ...
+    url: http://rb7fp6j8y.hn-bkt.clouddn.com/
 
 server:
     port: 8888
@@ -28,8 +28,8 @@ spring:
         url: jdbc:mysql://localhost:3306/blog?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&allowPublicKeyRetrieval=true
         username: root
     redis:
-        host: ...
-        password: ...
+        host: 120.76.137.145
+        password: r08874151597
         port: 6379
     servlet:
         multipart:

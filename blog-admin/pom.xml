@@ -35,7 +35,10 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 <!--        security启动-->
-<!--        <dependency>--> -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
 <!--        web启动-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

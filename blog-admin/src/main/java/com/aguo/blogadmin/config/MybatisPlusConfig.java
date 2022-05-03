@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
  * @Description: TODO
  */
 @Configuration
+
 public class MybatisPlusConfig {
     /**
      * mybatisplus分页插件

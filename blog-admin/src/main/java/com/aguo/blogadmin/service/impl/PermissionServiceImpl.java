@@ -12,6 +12,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @Author: aguo
  * @DateTime: 2022/5/3 16:22
@@ -51,5 +53,9 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public AGuoResult delete(String id) {
         return permissionMapper.deleteById(id) >0 ? AGuoResult.success(null):AGuoResult.fail(407,"删除失败");
+    }
+    @Override
+    public List<Permission> getPermissionByAdminId(Long adminId) {
+        return permissionMapper.getPermissionByAdminId(adminId);
     }
 }
