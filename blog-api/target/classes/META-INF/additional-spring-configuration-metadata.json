@@ -1,8 +1,0 @@
-{
-  "properties": [
-    {
-      "name": "qiniu.url",
-      "type": "java.lang.String",
-      "description": "Description for qiniu.url."
-  }
-] }
