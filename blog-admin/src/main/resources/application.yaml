@@ -1,0 +1,31 @@
+# spring配置
+spring:
+  application:
+    # 应用名称
+    name: blog-admin
+  datasource:
+    # 数据库驱动：
+    driver-class-name: com.alibaba.druid.proxy.DruidDriver
+    # 数据源名称
+    name: blog
+    #数据库地址
+    url: jdbc:mysql://localhost:3306/blog?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&allowPublicKeyRetrieval=true
+    #账号密码
+    username: root
+    password: a123456
+
+# 服务器配置
+server:
+  port: 8889
+
+# mybatis-plus配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 全局配置
+  global-config:
+    db-config:
+      # 去除的表明前缀
+      table-prefix: ms_
+      # 驼峰命名法与下划线命名法映射
+      table-underline: true
