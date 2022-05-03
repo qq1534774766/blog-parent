@@ -5,7 +5,7 @@ spring:
     name: blog-admin
   datasource:
     # 数据库驱动：
-    driver-class-name: com.alibaba.druid.proxy.DruidDriver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     # 数据源名称
     name: blog
     #数据库地址
@@ -13,6 +13,7 @@ spring:
     #账号密码
     username: root
     password: a123456
+    type: com.alibaba.druid.pool.DruidDataSource
 
 # 服务器配置
 server:
@@ -29,3 +30,5 @@ mybatis-plus:
       table-prefix: ms_
       # 驼峰命名法与下划线命名法映射
       table-underline: true
+#    mapper.xml扫描路径，注意mapper.xml文件放在resources中时，要与java中mapper.java目录一致
+  mapper-locations: classpath:com.aguo.blogapi.mapper.*

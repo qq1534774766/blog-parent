@@ -23,10 +23,10 @@
             <artifactId>spring-boot-starter</artifactId>
             <exclusions>
                 <!-- 排除 默认使用的logback  -->
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
+<!--                <exclusion>-->
+<!--                    <groupId>org.springframework.boot</groupId>-->
+<!--                    <artifactId>spring-boot-starter-logging</artifactId>-->
+<!--                </exclusion>-->
             </exclusions>
         </dependency>
 <!--        redis启动-->
@@ -35,10 +35,7 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 <!--        security启动-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-security</artifactId>-->
-<!--        </dependency>-->
+<!--        <dependency>--> -->
 <!--        web启动-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -117,13 +114,26 @@
             <version>1.2.7</version>
             <scope>compile</scope>
         </dependency>
-
+<!--        log4j-->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
         <!--        安全测试器-->
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.security</groupId>-->
 <!--            <artifactId>spring-security-test</artifactId>-->
 <!--            <scope>test</scope>-->
 <!--        </dependency>-->
+        <!--        SpringBoot热更新		-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>

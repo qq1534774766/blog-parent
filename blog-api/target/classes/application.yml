@@ -6,6 +6,7 @@ mybatis-plus:
     global-config:
         db-config:
             table-prefix: ms_
+    mapper-locations: classpath:com.aguo.blogapi.mapper.*
 
 qiniu:
     accessKey: hWg3eH6y0pmo20RibHPedHxq97C6xSz7l0MYtIxE
