@@ -1,5 +1,6 @@
 package com.aguo.blogapi.controller;
 
+import com.aguo.blogapi.common.aop.DoubleDeleteDelay;
 import com.aguo.blogapi.common.aop.LogAnnotation;
 import com.aguo.blogapi.common.cache.Cache;
 import com.aguo.blogapi.service.ArticleService;
@@ -20,6 +21,8 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
+
+
     /**
      * 博客首页的文章简略展示，默认10条。
      * RequestBody作用：前端发送json字符串时，可以转为java对象，
@@ -31,7 +34,7 @@ public class ArticleController {
      */
     @PostMapping
     @LogAnnotation(module = "文章",operation = "获取所有文章")
-    @Cache(cacheId = "articles/listArticle", expire = 60)
+    @Cache(cacheId = "articles/listArticle", expire = 60*5)
     public AGuoResult listArticle(@RequestBody PageParams pageParams){
         return articleService.listArticle(pageParams);
     }
@@ -81,6 +84,8 @@ public class ArticleController {
     }
 
     @PostMapping("publish")
+    @DoubleDeleteDelay(cacheId = "articles/listArticle",simpleClassName = "ArticleController",methodName = "listArticle")
+
     public AGuoResult publish(@RequestBody ArticleParam articleParam){
         return articleService.publish(articleParam);
     }

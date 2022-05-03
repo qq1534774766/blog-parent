@@ -76,6 +76,7 @@ public class CacheAspect {
 
             if (StringUtils.isNotEmpty(redisValue)){
                 log.info("走了缓存~~~,{},{}",className,methodName);
+                log.info("缓存key为,{}",redisKey);
                 return JSON.parseObject(redisValue, AGuoResult.class);
             }
 
@@ -83,6 +84,7 @@ public class CacheAspect {
 //            redisTemplate.opsForValue().set(redisKey,JSON.toJSONString(proceed), Duration.ofMillis(expire));
             redisCacheUtil.setCacheObject(redisKey,JSON.toJSONString(proceed), expire, TimeUnit.SECONDS);
             log.info("存入缓存~~~ {},{}",className,methodName);
+            log.info("缓存key为,{}",redisKey);
             return proceed;
         } catch (Throwable throwable) {
             throwable.printStackTrace();

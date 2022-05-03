@@ -50,6 +50,7 @@ public interface  ArticleService {
      * @param articleParam
      * @return
      */
+//     articles/listArticle","ArticleController","listArticle",null);
     @Transactional
     AGuoResult publish(ArticleParam articleParam);
 }
