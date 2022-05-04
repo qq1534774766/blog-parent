@@ -250,10 +250,10 @@ CREATE TABLE `aguo_sys_user`  (
 -- ----------------------------
 -- Records of aguo_sys_user
 -- ----------------------------
-INSERT INTO `aguo_sys_user` VALUES (1, 'admin', b'1', 'http://localhost:8080/static/img/logo.b3a48c0.png', 20210622223122, b'0', '11', 20210630223130, '12', '李四', '15f08f86435b060236fa9ccea751e9e5', '12', '1');
-INSERT INTO `aguo_sys_user` VALUES (1404446129264832513, 'lisi', b'1', '/static/img/logo.b3a48c0.png', 1623681025218, b'0', '', 1623681025218, NULL, '李四', '1d01d52c40f4ff57ad3f93a06daf21d5', '', '');
-INSERT INTO `aguo_sys_user` VALUES (1404448463944462338, '12213', b'1', '/static/img/logo.b3a48c0.png', 1623681581855, b'0', '', 1623681581855, NULL, '123', '8628d1f407f72e10ac947a032fe5ad29', '', '');
-INSERT INTO `aguo_sys_user` VALUES (1404448588146192386, '123', b'1', '/static/img/logo.b3a48c0.png', 1623681611474, b'0', '', 1623681611474, NULL, '123', '5e112646dbf3570f8e23d0cf1027ede1', '', '');
+INSERT INTO `aguo_sys_user` VALUES (1, 'admin', b'1', 'http://localhost:8080http://img.aguo.pro/236f4546deae4e048a3c96bbadc755f4.png', 20210622223122, b'0', '11', 20210630223130, '12', '李四', '15f08f86435b060236fa9ccea751e9e5', '12', '1');
+INSERT INTO `aguo_sys_user` VALUES (1404446129264832513, 'lisi', b'1', 'http://img.aguo.pro/236f4546deae4e048a3c96bbadc755f4.png', 1623681025218, b'0', '', 1623681025218, NULL, '李四', '1d01d52c40f4ff57ad3f93a06daf21d5', '', '');
+INSERT INTO `aguo_sys_user` VALUES (1404448463944462338, '12213', b'1', 'http://img.aguo.pro/236f4546deae4e048a3c96bbadc755f4.png', 1623681581855, b'0', '', 1623681581855, NULL, '123', '8628d1f407f72e10ac947a032fe5ad29', '', '');
+INSERT INTO `aguo_sys_user` VALUES (1404448588146192386, '123', b'1', 'http://img.aguo.pro/236f4546deae4e048a3c96bbadc755f4.png', 1623681611474, b'0', '', 1623681611474, NULL, '123', '5e112646dbf3570f8e23d0cf1027ede1', '', '');
 
 -- ----------------------------
 -- Table structure for aguo_tag
