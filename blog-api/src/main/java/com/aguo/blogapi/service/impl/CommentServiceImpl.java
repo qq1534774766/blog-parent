@@ -86,6 +86,11 @@ public class CommentServiceImpl implements CommentService {
         return AGuoResult.success(null);
     }
 
+    @Override
+    public void deleteCommentByArticleId(Long articleId) {
+        commentMapper.deleteById(articleId);
+    }
+
     private List<CommentVo> copyList(List<Comment> commentList) {
         ArrayList<CommentVo> commentVoList = new ArrayList<>();
         for (Comment comment : commentList) {

@@ -24,4 +24,6 @@ public interface CommentService {
      */
     @Transactional
     AGuoResult comment(CommentParam param);
+
+    void deleteCommentByArticleId(Long articleId);
 }

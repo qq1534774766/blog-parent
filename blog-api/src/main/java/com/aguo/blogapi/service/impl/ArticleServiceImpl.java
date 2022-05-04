@@ -18,6 +18,7 @@ import com.aguo.blogapi.vo.params.PageParams;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.Setter;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private ArticleTagMapper articleTagMapper;
+
+    @Autowired
+    private CommentService commentService;
 
     @Override
     public AGuoResult listArticle(PageParams pageParams){
@@ -134,6 +138,10 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public AGuoResult publish(ArticleParam articleParam) {
+        if (articleParam.getId()!=null&&0!=articleParam.getId()){
+            //说明文章已存在，先执行删除文章
+            deleteArticleById(articleParam.getId());
+        }
         //获取当前登录用户
         SysUser sysUser = UserThreadLocal.get();
         /**
@@ -174,6 +182,24 @@ public class ArticleServiceImpl implements ArticleService {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("id", article.getId().toString());
         return AGuoResult.success(map);
+    }
+
+    /**
+     * 删除文章通过文章Id
+     * @param articleId
+     */
+    private void deleteArticleById(Long articleId) {
+        /**
+         * 删除文章，要进行级联删除
+         * 1. 删除文章与文章内容关系表记录
+         * 2. 删除文章与标签关系表记录
+         * 3. 删除评论
+         * 4. 删除文章本身
+         */
+        articleBodyService.deleteArticleBodyByArticleId(articleId);
+        articleTagMapper.deleteById(articleId);
+        commentService.deleteCommentByArticleId(articleId);
+        articleMapper.deleteById(articleId);
     }
 
     @Override

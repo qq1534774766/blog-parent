@@ -17,4 +17,6 @@ public interface ArticleBodyService{
     ArticleBodyVo findArticleBodyById(Long bodyId);
 
     void save(ArticleBody articleBody);
+
+    void deleteArticleBodyByArticleId(Long articleId);
 }

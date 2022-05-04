@@ -30,4 +30,9 @@ public class ArticleBodyServiceImpl implements ArticleBodyService {
     public void save(ArticleBody articleBody) {
         articleBodyMapper.insert(articleBody);
     }
+
+    @Override
+    public void deleteArticleBodyByArticleId(Long articleId) {
+        articleBodyMapper.deleteById(articleId);
+    }
 }
