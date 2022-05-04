@@ -2,12 +2,13 @@
   <el-card>
     <h1 class="me-author-name">阿果</h1>
     <div class="me-author-description">
-      <span><i class="el-icon-location-outline"></i> &nbsp;山西&太原</span>
-      <span><i class="me-icon-job"></i> &nbsp;java技术专家</span>
+      <span><i class="el-icon-location-outline"></i> 广东&广州</span>&nbsp;
+      <span><i class="iconfont icon-java"></i>java上帝架构师</span>
     </div>
     <div class="me-author-tool">
-      <i @click="showTool(qq)" :title="qq.title" class="iconfont icon-qq"></i>
-      <i @click="showTool(bilibili)" :title="bilibili.title" class="iconfont icon-bilibili-fill"></i>
+      <i @click="showTool(qq)" :title="qq.title" class="iconfont icon-QQ"></i>
+      <a style="font-size: 30px" :title="bilibili.title" href="https://github.com/qq1534774766/blog-parent" class="iconfont icon-github-fill"></a>
+      <i   ></i>
     </div>
   </el-card>
 
@@ -18,10 +19,10 @@
     name: 'CardMe',
     data() {
       return {
-        qq: {title: 'QQ', message: '723663826'},
+        qq: {title: 'QQ', message: '1534774766'},
         bilibili: {
-          title: '哔哩哔哩',
-          message: '<a target="_blank" href="https://space.bilibili.com/473844125">https://space.bilibili.com/473844125</a>'
+          title: 'GitHub',
+          message: '<a target="_blank" href="https://github.com/qq1534774766/blog-parent">https://github.com/qq1534774766/blog-parent</a>'
         }
       }
     },

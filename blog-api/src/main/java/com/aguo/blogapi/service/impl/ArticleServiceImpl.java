@@ -2,6 +2,7 @@ package com.aguo.blogapi.service.impl;
 
 
 import com.aguo.blogapi.dos.Archives;
+import com.aguo.blogapi.enums.ErrorCode;
 import com.aguo.blogapi.mapper.ArticleMapper;
 import com.aguo.blogapi.mapper.ArticleTagMapper;
 import com.aguo.blogapi.pojo.Article;
@@ -9,6 +10,7 @@ import com.aguo.blogapi.pojo.ArticleBody;
 import com.aguo.blogapi.pojo.ArticleTag;
 import com.aguo.blogapi.pojo.SysUser;
 import com.aguo.blogapi.service.*;
+import com.aguo.blogapi.untils.RedisCacheUtil;
 import com.aguo.blogapi.untils.UserThreadLocal;
 import com.aguo.blogapi.vo.AGuoResult;
 import com.aguo.blogapi.vo.ArticleVo;
@@ -59,45 +61,16 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private RedisCacheUtil redisUtil;
+
     @Override
-    public AGuoResult listArticle(PageParams pageParams){
-        Page<Article> page = new Page<>(pageParams.getPage(), pageParams.getPageSize());
-        IPage<Article> articlePage = articleMapper.listArticle(page,pageParams);
-        List<Article> records = page.getRecords();
-        return AGuoResult.success(copyList(records,true,true));
-    }
-    /*@Override
     public AGuoResult listArticle(PageParams pageParams) {
         Page<Article> page = new Page<>(pageParams.getPage(), pageParams.getPageSize());
-        LambdaQueryWrapper<Article> articleQueryWrapper = new LambdaQueryWrapper<>();
-        //where start
-//        分类ID不为空时，用于通过选择指定类别来显示指定的文章
-        Long categoryId = pageParams.getCategoryId();
-        articleQueryWrapper.eq( categoryId!= null&&categoryId!=0, Article::getCategoryId, categoryId);
-//        标签ID不为空时，用于通过选择指定的标签来显示指定的文章
-        List<Long> articleIdList = new ArrayList<>();
-        if (pageParams.getTagId() != null&&pageParams.getTagId()!=0) {
-            LambdaQueryWrapper<ArticleTag> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.eq(ArticleTag::getTagId, pageParams.getTagId());
-            // 此时的articleTags 包含有tagID，和所有文章的ID
-            List<ArticleTag> articleTags = articleTagMapper.selectList(queryWrapper);
-            // 将articleTags中的文章Id提取到一个新集合当中
-            articleTags.forEach(articleTag -> {
-                articleIdList.add(articleTag.getArticleId());
-            });
-            // id in (1,2,3)
-            if (articleIdList.size() > 0)
-                articleQueryWrapper.in(Article::getId, articleIdList);
-        }
-        //where end
-        articleQueryWrapper.orderByDesc(Article::getWeight, Article::getCreateDate);
-        Page<Article> articlePage = articleMapper.selectPage(page, articleQueryWrapper);
-        //得到结果的所有记录，但是是Article的数据库对象
-        List<Article> article = articlePage.getRecords();
-        //通过copyList转化为Vo对象
-        List<ArticleVo> articleVoList = copyList(article, true, true);
-        return AGuoResult.success(articleVoList);
-    }*/
+        IPage<Article> articlePage = articleMapper.listArticle(page, pageParams);
+        List<Article> records = page.getRecords();
+        return AGuoResult.success(copyList(records, true, true));
+    }
 
     @Override
     public AGuoResult hotArticles(int limit) {
@@ -138,8 +111,13 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public AGuoResult publish(ArticleParam articleParam) {
-        if (articleParam.getId()!=null&&0!=articleParam.getId()){
-            //说明文章已存在，先执行删除文章
+        if (articleParam.getId() != null && 0 != articleParam.getId()) {
+            SysUser sysUser = UserThreadLocal.get();
+            if (!(sysUser.getId()==1||sysUser.getId().equals(getAuthorIdByArticleId(articleParam.getId())))){
+                //非超级管理员或文件主人，禁止操作
+                return AGuoResult.failed(ErrorCode.NO_PERMISSION.getCode(), ErrorCode.NO_PERMISSION.getMsg());
+            }
+            //说明文章已存在，先执行删除文章。（）
             deleteArticleById(articleParam.getId());
         }
         //获取当前登录用户
@@ -184,28 +162,44 @@ public class ArticleServiceImpl implements ArticleService {
         return AGuoResult.success(map);
     }
 
-    /**
-     * 删除文章通过文章Id
-     * @param articleId
-     */
-    private void deleteArticleById(Long articleId) {
+
+    public AGuoResult deleteArticleById(Long articleId) {
+        SysUser sysUser = UserThreadLocal.get();
+        if (!(sysUser.getId() == 1 || sysUser.getId().equals(getAuthorIdByArticleId(articleId)))) {
+            //非超级管理员或文件主人，禁止操作
+            return AGuoResult.failed(ErrorCode.NO_PERMISSION.getCode(), ErrorCode.NO_PERMISSION.getMsg());
+        }
+
         /**
          * 删除文章，要进行级联删除
+         * 0. 清空文章阅读量对应的Redis缓存
          * 1. 删除文章与文章内容关系表记录
          * 2. 删除文章与标签关系表记录
          * 3. 删除评论
          * 4. 删除文章本身
          */
+        String redisKey = "blog:article:viewCount:articleId:" + articleId;
+        redisUtil.deleteObject(redisKey);
         articleBodyService.deleteArticleBodyByArticleId(articleId);
         articleTagMapper.deleteById(articleId);
         commentService.deleteCommentByArticleId(articleId);
         articleMapper.deleteById(articleId);
+        return AGuoResult.success(null);
     }
+
 
     @Override
     public int updateArticleViewCount(Long articleId, Integer viewCount) {
-        return articleMapper.updateArticleViewCountById(articleId,viewCount);
+        return articleMapper.updateArticleViewCountById(articleId, viewCount);
 
+    }
+
+    @Override
+    public Long getAuthorIdByArticleId(Long articleId) {
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(Article::getAuthorId);
+        queryWrapper.eq(Article::getId, articleId);
+        return articleMapper.selectOne(queryWrapper).getId();
     }
 
 

@@ -43,7 +43,9 @@ public class WebMVCConfig implements WebMvcConfigurer {
         registry.addInterceptor(loginInterceptor)
         .addPathPatterns("/**/admin")
         .addPathPatterns("/comments/create/change")
-        .addPathPatterns("/articles/publish");
+        .addPathPatterns("/articles/publish") //插入和修改文章
+        .addPathPatterns("/**/delete/**");//删除文章
+
     }
 
     /**

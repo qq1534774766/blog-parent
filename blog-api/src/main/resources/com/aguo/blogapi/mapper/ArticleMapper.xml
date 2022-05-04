@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.aguo.blogapi.mapper.ArticleMapper">
     <update id="updateArticleViewCountById">
-        update ms_article
+        update aguo_article
         set view_counts = #{viewCount}
         where id = #{articleId}
     </update>
 
     <update id="increaseArticleViewCountById"  parameterType="long" >
-        update ms_article
+        update aguo_article
         set view_counts = view_counts + 1
         where id = #{articleId}
     </update>
@@ -16,7 +16,7 @@
         select YEAR(FROM_UNIXTIME(create_date / 1000))  year,
                month(FROM_UNIXTIME(create_date / 1000)) month,
                count(*)                                 count
-        from ms_article
+        from aguo_article
         group by year, month
     </select>
 
@@ -32,13 +32,13 @@
             author_id,
             body_id,
             category_id
-        from ms_article
+        from aguo_article
         <where>
             <if test="pageParams.categoryId != null">
                 and category_id=#{pageParams.categoryId}
             </if>
             <if test="pageParams.tagId != null">
-                and id in (select article_id from ms_article_tag where tag_id = #{pageParams.tagId})
+                and id in (select article_id from aguo_article_tag where tag_id = #{pageParams.tagId})
             </if>
             <if test="pageParams.year != null and pageParams.year.length > 0 and pageParams.month != null and pageParams.month.length >0">
                 and (YEAR(FROM_UNIXTIME(create_date / 1000)) =#{pageParams.year}

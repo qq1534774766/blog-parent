@@ -53,18 +53,18 @@ public class DoubleDeleteDelayAspect {
 //            jsonParam = DigestUtils.md5Hex(jsonParam);专业的事交给专业的人做，我们要给负责执行删除缓存方法来执行这个方法，这里不能执行
             log.info("第一次删除缓存 ↓");
             // 这里使用的是线程池异步方式，但是似乎这样不对，因为延迟双删要的是即时性。纯粹练手
-            threadService.updateRedis(cacheId, simpleClassName,redisMethodName,jsonParam);
+            threadService.deleteRedis(cacheId, simpleClassName,redisMethodName,jsonParam);
             //原方法执行
             result = joinPoint.proceed();
             log.info("第二次删除缓存 ↓");
-            threadService.updateRedis(cacheId, simpleClassName,redisMethodName,jsonParam);
+            threadService.deleteRedis(cacheId, simpleClassName,redisMethodName,jsonParam);
             return result;
         }
         log.info("第一次删除缓存 ↓");
-        threadService.updateRedis(cacheId, simpleClassName,redisMethodName,null);
+        threadService.deleteRedis(cacheId, simpleClassName,redisMethodName,null);
         result = joinPoint.proceed();
         log.info("第二次删除缓存 ↓");
-        threadService.updateRedis(cacheId, simpleClassName,redisMethodName,null);
+        threadService.deleteRedis(cacheId, simpleClassName,redisMethodName,null);
         return result;
     }
 }

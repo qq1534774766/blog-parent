@@ -26,7 +26,7 @@
       </div>
 
       <div class="me-reply-list">
-        <div class="me-reply-item" v-for="c in comment.childrens" :key="c.id">
+        <div class="me-reply-item" v-if="comment.childrens.length>0" v-for="c in comment.childrens" :key="c.id">
           <div style="font-size: 14px">
             <span class="me-reply-user">{{c.author.nickname}}:&nbsp;&nbsp;</span>
 
@@ -111,12 +111,14 @@
         publishComment(that.reply,this.$store.state.token).then(data => {
           if(data.success){
             that.$message({type: 'success', message: '评论成功', showClose: true})
-            if(!that.comment.childrens){
-              that.comment.childrens = []
-            }
-            that.comment.childrens.unshift(data.data)
-            that.$emit('commentCountsIncrement')
-            that.showComment(that.commentShowIndex)
+            // this.$router.push({path: `/`})
+            // this.$forceUpdate()
+            // if(!that.comment.childrens){
+            //   that.comment.childrens = []
+            // }
+            // that.comment.childrens.unshift(data.data)
+            // that.$emit('commentCountsIncrement')
+            // that.showComment(that.commentShowIndex)
           }else{
              that.$message({type: 'error', message: data.msg, showClose: true})
           }

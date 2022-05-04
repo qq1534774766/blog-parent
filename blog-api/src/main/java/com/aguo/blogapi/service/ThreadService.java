@@ -33,13 +33,16 @@ public class ThreadService {
      */
     @Async("threadPoolTaskExecutor")
     public void increaseArticleViewCount(ArticleMapper articleMapper, Article article) {
+        //启动定时器
         enableTimedTasks("article","updateArticleViewCountFromCacheToDB");
         String redisKey ="blog:article:viewCount:articleId:"+ article.getId();
         String value =  redisUtil.getCacheObject(redisKey);
         if (StringUtils.isNotEmpty(value)){
+            //阅读量++
             redisUtil.increaseValue(redisKey);
         }else {
-            redisUtil.setCacheObject(redisKey,String.valueOf(article.getViewCounts()+1),30L, TimeUnit.SECONDS);
+            //设置阅读量,60分钟
+            redisUtil.setCacheObject(redisKey,String.valueOf(article.getViewCounts()+1),11L, TimeUnit.SECONDS);
         }
     }
 
@@ -64,14 +67,14 @@ public class ThreadService {
     }
 
     /**
-     *
+     * 删除与参数匹配的缓存Key
      * @param cacheId
      * @param simpleName
      * @param methodName
-     * @param overallParam
+     * @param overallParam 未经加密
      */
     @Async("threadPoolTaskExecutor")
-    public void updateRedis(String cacheId, String simpleName, String methodName, Object overallParam) {
+    public void deleteRedis(String cacheId, String simpleName, String methodName, Object overallParam) {
 //        articles/listArticle:ArticleController:listArticle:683bcfb2ac2fb2a288f9a40fd5305156
 
         String redisKey = cacheId + ":" + simpleName + ":" + methodName + ":";
@@ -87,10 +90,13 @@ public class ThreadService {
             log.info("删除了缓存,{}", redisKey + s);
         } else {
             Collection<String> keys = redisUtil.keys(redisKey + "*");
-            log.info("删除了所有匹配的缓存,{}", redisKey);
             redisUtil.deleteObject(keys);
+            log.info("删除了所有匹配的缓存,{}", redisKey);
         }
     }
+
+
+
 
 
 

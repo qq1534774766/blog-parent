@@ -38,6 +38,13 @@ export function viewArticle(id) {
     method: 'post'
   })
 }
+export function deleteArticle(id,token){
+  return request({
+    headers: {'Authorization': token},
+    url: `/articles/delete/${id}`,
+    method: 'post'
+  })
+}
 
 export function getArticlesByCategory(id) {
   return request({

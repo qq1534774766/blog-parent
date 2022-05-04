@@ -55,9 +55,24 @@ public interface  ArticleService {
     AGuoResult publish(ArticleParam articleParam);
 
     /**
+     * 通过Id删除文章（包含其标签分类评论）
+     * @param articleId
+     * @return
+     */
+    @Transactional
+    AGuoResult deleteArticleById(Long articleId);
+
+    /** 更新文章阅读量
      *
      * @return
      */
     @Transactional
     int updateArticleViewCount(Long articleId,Integer viewCount);
+
+    /**
+     * 通过文章ID找到用户ID
+     * @param articleId
+     * @return
+     */
+    Long getAuthorIdByArticleId(Long articleId);
 }

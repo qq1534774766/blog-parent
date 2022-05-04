@@ -7,19 +7,19 @@
             parameterType="long"
             resultType="com.aguo.blogapi.pojo.Tag">
         select
-               ms_tag.id id,
-               ms_tag.avatar,
-               ms_tag.tag_name
-        from ms_article
-        join ms_article_tag on ms_article.id=ms_article_tag.article_id
-        join ms_tag on ms_article_tag.tag_id=ms_tag.id
-        where ms_article.id=#{id}
+               aguo_tag.id id,
+               aguo_tag.avatar,
+               aguo_tag.tag_name
+        from aguo_article
+        join aguo_article_tag on aguo_article.id=aguo_article_tag.article_id
+        join aguo_tag on aguo_article_tag.tag_id=aguo_tag.id
+        where aguo_article.id=#{id}
     </select>
 <!--    查询出limit个热门标签-->
     <select id="listHotTagsId" parameterType="int" resultType="Long">
         select tag_id
-        from ms_article_tag
-        GROUP BY ms_article_tag.tag_id
+        from aguo_article_tag
+        GROUP BY aguo_article_tag.tag_id
         ORDER BY count(*)
         LIMIT #{limit}
     </select>

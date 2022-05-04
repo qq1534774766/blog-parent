@@ -30,23 +30,23 @@ public class RedisTimedTask {
     private RedisCacheUtil redisUtil;
 
     @Async("threadPoolTaskExecutor")
-    @Scheduled(cron = "0/5 * * * * ?")
+    @Scheduled(cron = "0/10 * * * * ?")
     public void updateArticleViewCountFromCacheToDB(){
-        String currentMethodName = Thread.currentThread().getStackTrace()[1].getMethodName();
+        String currentMethodName = "updateArticleViewCountFromCacheToDB";
         String timedTaskKey = "blog:article:"+currentMethodName;
-
+        // timedTaskKey标识定时器启动与否
         if (redisUtil.existsKey(timedTaskKey)) {
             String redisKey = "blog:article:viewCount:articleId:*";
             Collection<String> keys = redisUtil.keys(redisKey);
             if (keys != null && keys.size() > 0) {
+                // 在redis中找到了待更新文章阅读量的key
                 for (String key : keys) {
                     String viewCount = redisUtil.getCacheObject(key);
                     String articleId = StringUtils.split(key, ":")[4];
-                    articleService.updateArticleViewCount(Long.parseLong(articleId), Integer.valueOf(viewCount));
+                    int count = articleService.updateArticleViewCount(Long.parseLong(articleId), Integer.valueOf(viewCount));
                     log.info("执行定时任务【{}】==>阅读量【{}】写入数据库,文章ID：【{}】",currentMethodName, viewCount, articleId);
                 }
-            }
-            else {
+            }else {
                 redisUtil.deleteObject(timedTaskKey);
                 log.info("暂停定时任务【{}】",currentMethodName);
             }

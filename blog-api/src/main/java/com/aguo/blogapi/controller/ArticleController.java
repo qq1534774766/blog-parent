@@ -22,7 +22,6 @@ public class ArticleController {
     private ArticleService articleService;
 
 
-
     /**
      * 博客首页的文章简略展示，默认10条。
      * RequestBody作用：前端发送json字符串时，可以转为java对象，
@@ -92,10 +91,26 @@ public class ArticleController {
         return articleService.findArticleById(articleId);
     }
 
+    /**
+     * 发布文章
+     * @param articleParam
+     * @return
+     */
     @PostMapping("publish")
     @DoubleDeleteDelay(cacheId = "articles/listArticle",simpleClassName = "ArticleController",methodName = "listArticle")
     public AGuoResult publish(@RequestBody ArticleParam articleParam){
         return articleService.publish(articleParam);
+    }
+
+    /**
+     * 删除文章
+     * @param articleId
+     * @return
+     */
+    @RequestMapping("delete/{id}")
+    @DoubleDeleteDelay(cacheId = "articles/listArticle",simpleClassName = "ArticleController",methodName = "listArticle")
+    public AGuoResult deleteArticle(@PathVariable("id") Long articleId){
+        return articleService.deleteArticleById(articleId);
     }
 
 }

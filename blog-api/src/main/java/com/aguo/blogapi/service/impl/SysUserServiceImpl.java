@@ -85,7 +85,7 @@ public class SysUserServiceImpl implements SysUserService {
         sysUser.setPassword(DigestUtils.md5Hex(param.getPassword()+ Salt.SALT.getCode()));
         sysUser.setCreateDate(System.currentTimeMillis());
         sysUser.setLastLogin(System.currentTimeMillis());
-        sysUser.setAvatar("/static/img/logo.b3a48c0.png");
+        sysUser.setAvatar("http://img.aguo.pro/236f4546deae4e048a3c96bbadc755f4.png");
         sysUser.setAdmin(1);
         sysUser.setDeleted(0);
         sysUser.setSalt("");

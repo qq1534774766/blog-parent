@@ -2,7 +2,7 @@
   <el-card class="me-area" :body-style="{ padding: '16px' }">
     <div class="me-article-header">
 
-      <a @click="view(id)" class="me-article-title">{{title}}</a>
+      <a  @click="view(id)" class="me-article-title">{{title}}</a>
       <el-button v-if="weight > 0" class="me-article-icon" type="text">置顶</el-button>
       <span class="me-pull-right me-article-count">
 	    	<i class="me-icon-comment"></i>&nbsp;{{commentCounts}}

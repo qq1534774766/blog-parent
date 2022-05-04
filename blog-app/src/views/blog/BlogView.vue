@@ -1,14 +1,15 @@
 <template>
   <div class="me-view-body" v-title :data-title="title">
     <el-container class="me-view-container">
-<!--      <el-aside class="me-area">-->
-<!--        <ul class="me-operation-list">-->
-<!--          <li class="me-operation-item">-->
-<!--            <el-button type="primary" icon="el-icon-edit"></el-button>-->
-<!--          </li>-->
-<!--        </ul>-->
-<!--      </el-aside>-->
+     <!-- <el-aside class="me-area">
+        <ul class="me-operation-list">
+          <li class="me-operation-item">
+            <el-button type="primary" icon="el-icon-edit"></el-button>
+          </li>
+        </ul>
+      </el-aside> -->
       <el-main>
+
         <div class="me-view-card">
           <h1 class="me-view-title">{{article.title}}</h1>
           <div class="me-view-author">
@@ -20,18 +21,29 @@
               <div class="me-view-meta">
                 <span>{{article.createDate | format}}</span>
                 <span>阅读   {{article.viewCounts}}</span>
-                <span>评论   {{article.commentCounts}}</span>
+                <span>评论   {{comments.length}}</span>
               </div>
 
             </div>
-            <el-button
-              v-if="this.article.author.id == this.$store.state.id"
-              @click="editArticle()"
-              style="position: absolute;left: 60%;"
-              size="mini"
-              round
-              icon="el-icon-edit">编辑
-            </el-button>
+
+            <template v-if="this.article.author.id == this.$store.state.id||this.$store.state.id=='1'">
+              <el-button
+                @click="editArticle()"
+                style="position: absolute;left: 60%;"
+                size="normal"
+                round
+                icon="el-icon-edit">编辑
+              </el-button>
+
+              <el-button
+                @click="deleteArticle()"
+                style="position: absolute;left: 70%;"
+                size="normal"
+                type="danger"
+                round
+                icon="el-icon-delete">删除
+              </el-button>
+            </template>
           </div>
           <div class="me-view-content">
             <markdown-editor :editor=article.editor></markdown-editor>
@@ -55,7 +67,7 @@
           <div class="me-view-tag">
             文章分类：
             <!--<span style="font-weight: 600">{{article.category.categoryName}}</span>-->
-            <el-button @click="tagOrCategory('category', article.category.id)" size="mini" type="primary"  round plain>{{article.category.categoryName}}</el-button>
+            <el-button @click="tagOrCategory('category', article.category.id)" size="mini" type="primary" round plain>{{article.category.categoryName}}</el-button>
           </div>
 
           <div class="me-view-comment">
@@ -86,7 +98,7 @@
             </div>
 
             <div class="me-view-comment-title">
-              <span>{{article.commentCounts}} 条评论</span>
+              <span>{{comments.length}} 条评论</span>
             </div>
 
             <commment-item
@@ -111,7 +123,7 @@
 <script>
   import MarkdownEditor from '@/components/markdown/MarkdownEditor'
   import CommmentItem from '@/components/comment/CommentItem'
-  import {viewArticle} from '@/api/article'
+  import {viewArticle,deleteArticle} from '@/api/article'
   import {getCommentsByArticle, publishComment} from '@/api/comment'
 
   import default_avatar from '@/assets/img/default_avatar.png'
@@ -160,7 +172,7 @@
         return default_avatar
       },
       title() {
-        return `${this.article.title} - 文章 - 阿果`
+        return `${this.article.title} - 文章 - 阿果之路`
       }
     },
     methods: {
@@ -194,8 +206,9 @@
           if(data.success){
             that.$message({type: 'success', message: '评论成功', showClose: true})
             that.comment.content = ''
-            that.comments.unshift(data.data)
-            that.commentCountsIncrement()
+            that.comments.unshift(data.data);
+            that.commentCountsIncrement();
+            that.getCommentsByArticle();
 
           }else{
                that.$message({type: 'error', message: data.msg, showClose: true})
@@ -207,13 +220,35 @@
           }
         })
       },
+      deleteArticle(){
+        let that = this
+        this.$confirm('此操作将永久删除该文章, 是否继续?', '提示', {
+          confirmButtonText: '删除',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          deleteArticle(that.$route.params.id,this.$store.state.token).then(data=>{
+              that.$message({type: 'success', message: '删除成功', showClose: true})
+              this.$router.push({path: "/"})
+            }
+          ).catch(error=>{
+            if (error !== 'error') {
+              that.$message({type: 'error', message: '文章删除失败', showClose: true})
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+
+      },
       getCommentsByArticle() {
         let that = this
         getCommentsByArticle(that.article.id).then(data => {
           if(data.success){
                that.comments = data.data
-            console.log(data.data)
-                that.article.commentCounts = that.comments.length;
           }else{
              that.$message({type: 'error', message: '评论加载失败', showClose: true})
           }

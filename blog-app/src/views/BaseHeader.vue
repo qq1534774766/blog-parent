@@ -43,6 +43,7 @@
             <el-submenu index>
               <template slot="title">
                 <img class="me-header-picture" :src="user.avatar"/>
+                {{user.nickname}}
               </template>
               <el-menu-item index @click="logout"><i class="el-icon-back"></i>退出</el-menu-item>
             </el-submenu>
@@ -71,8 +72,9 @@
       user() {
         let login = this.$store.state.account.length != 0
         let avatar = this.$store.state.avatar
+        let nickname = this.$store.state.name
         return {
-          login, avatar
+          login, avatar,nickname
         }
       }
     },
