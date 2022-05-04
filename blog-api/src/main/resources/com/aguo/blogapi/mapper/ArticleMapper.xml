@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.aguo.blogapi.mapper.ArticleMapper">
+    <update id="updateArticleViewCountById">
+        update ms_article
+        set view_counts = #{viewCount}
+        where id = #{articleId}
+    </update>
+
     <update id="increaseArticleViewCountById"  parameterType="long" >
         update ms_article
         set view_counts = view_counts + 1
-        where id = #{id}
+        where id = #{articleId}
     </update>
     <select id="listArchives" resultType="com.aguo.blogapi.dos.Archives">
         select YEAR(FROM_UNIXTIME(create_date / 1000))  year,

@@ -23,12 +23,22 @@ public class RedisCacheUtil {
 
     /**
      * 缓存基本的对象，Integer、String、实体类等
-     *
-     * @param key   缓存的键值
+     *  @param key   缓存的键值
+     * @param value 缓存的值
+     * @param i
+     * @param seconds
+     */
+    public <T> void setCacheObject(final String key, final T value, int i, TimeUnit seconds) {
+        redisTemplate.opsForValue().set(key, value);
+    }
+    /**
+     * 如果指定key不存在才会设置
+     * 缓存基本的对象，Integer、String、实体类等
+     *  @param key   缓存的键值
      * @param value 缓存的值
      */
-    public <T> void setCacheObject(final String key, final T value) {
-        redisTemplate.opsForValue().set(key, value);
+    public <T> Boolean setCacheObjectIfAbsent(final String key, final T value) {
+        return redisTemplate.opsForValue().setIfAbsent(key, value);
     }
 
     /**
@@ -41,7 +51,22 @@ public class RedisCacheUtil {
      */
     public <T> void setCacheObject(final String key, final T value, final Long timeout, final TimeUnit timeUnit) {
         redisTemplate.opsForValue().set(key, value, timeout, timeUnit);
+
     }
+    /**
+     * 如果指定key不存在才会设置
+     * 缓存基本的对象，Integer、String、实体类等
+     *
+     * @param key      缓存的键值
+     * @param value    缓存的值
+     * @param timeout  时间
+     * @param timeUnit 时间颗粒度
+     */
+    public <T> Boolean setCacheObjectIfAbsent(final String key, final T value, final Long timeout, final TimeUnit timeUnit) {
+        return redisTemplate.opsForValue().setIfAbsent(key, value, timeout, timeUnit);
+    }
+
+
 
     /**
      * 设置有效时间
@@ -209,4 +234,25 @@ public class RedisCacheUtil {
     public Collection<String> keys(final String pattern) {
         return redisTemplate.keys(pattern);
     }
+
+    /**
+     *
+     * @param key
+     * @return 增加成功后的值
+     */
+
+    public Long increaseValue(String key){
+        return redisTemplate.opsForValue().increment(key);
+    }
+
+    /**
+     * 检查key是否存在
+     * @param key
+     * @return
+     */
+    public Boolean existsKey(String key){
+        return redisTemplate.hasKey(key);
+    }
+
+
 }

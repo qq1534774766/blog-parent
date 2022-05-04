@@ -5,6 +5,7 @@ import com.aguo.blogapi.pojo.SysUser;
 import com.aguo.blogapi.service.LoginService;
 import com.aguo.blogapi.service.SysUserService;
 import com.aguo.blogapi.untils.QiniuUtil;
+import com.aguo.blogapi.untils.RedisCacheUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,8 @@ class BlogApiApplicationTests {
     private LoginService loginService;
     @Autowired
     private QiniuUtil qiniuUtil;
+    @Autowired
+    private RedisCacheUtil redisUtil;
 
     @Autowired
     private SysUserService sysUserService;
@@ -39,7 +42,6 @@ class BlogApiApplicationTests {
     }
     @Test
     void test1(){
-        System.out.println(qiniuUtil.getUrl());
     }
 
 

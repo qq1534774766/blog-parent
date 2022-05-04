@@ -82,10 +82,18 @@ public class ArticleController {
     public AGuoResult findArticleById(@PathVariable("id") Long articleId){
         return articleService.findArticleById(articleId);
     }
+    /**
+     * 通过文章id获取文章的详细内容
+     * @param articleId
+     * @return
+     */
+    @PostMapping("{id}")
+    public AGuoResult findArticleByIdToWrite(@PathVariable("id") Long articleId){
+        return articleService.findArticleById(articleId);
+    }
 
     @PostMapping("publish")
     @DoubleDeleteDelay(cacheId = "articles/listArticle",simpleClassName = "ArticleController",methodName = "listArticle")
-
     public AGuoResult publish(@RequestBody ArticleParam articleParam){
         return articleService.publish(articleParam);
     }

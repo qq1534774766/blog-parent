@@ -1,15 +1,14 @@
 <template>
   <div class="me-view-body" v-title :data-title="title">
     <el-container class="me-view-container">
-      <!--<el-aside class="me-area">-->
-        <!--<ul class="me-operation-list">-->
-          <!--<li class="me-operation-item">-->
-            <!--<el-button type="primary" icon="el-icon-edit"></el-button>-->
-          <!--</li>-->
-        <!--</ul>-->
-      <!--</el-aside>-->
+<!--      <el-aside class="me-area">-->
+<!--        <ul class="me-operation-list">-->
+<!--          <li class="me-operation-item">-->
+<!--            <el-button type="primary" icon="el-icon-edit"></el-button>-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </el-aside>-->
       <el-main>
-
         <div class="me-view-card">
           <h1 class="me-view-title">{{article.title}}</h1>
           <div class="me-view-author">
@@ -17,7 +16,7 @@
               <img class="me-view-picture" :src="article.author.avatar"></img>
             </a>
             <div class="me-view-info">
-              <span>{{article.author}}</span>
+              <span>{{article.author.nickname}}</span>
               <div class="me-view-meta">
                 <span>{{article.createDate | format}}</span>
                 <span>阅读   {{article.viewCounts}}</span>
@@ -31,7 +30,8 @@
               style="position: absolute;left: 60%;"
               size="mini"
               round
-              icon="el-icon-edit">编辑</el-button>
+              icon="el-icon-edit">编辑
+            </el-button>
           </div>
           <div class="me-view-content">
             <markdown-editor :editor=article.editor></markdown-editor>

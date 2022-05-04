@@ -8,3 +8,4 @@ target/
 .classpath
 *.yml
 *.yaml
+node_modules/

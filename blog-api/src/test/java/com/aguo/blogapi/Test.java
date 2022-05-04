@@ -10,9 +10,10 @@ import java.util.UUID;
  */
 public class Test {
     public static void main(String[] args) {
-        UUID uuid = UUID.randomUUID();
-        String s = uuid.toString();
-        System.out.println();
+        tetst222();
 
+    }
+    public static void tetst222(){
+        System.out.println();
     }
 }

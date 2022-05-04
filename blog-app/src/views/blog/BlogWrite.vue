@@ -74,7 +74,6 @@
   export default {
     name: 'BlogWrite',
     mounted() {
-
       if(this.$route.params.id){
         this.getArticleById(this.$route.params.id)
       }

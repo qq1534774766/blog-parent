@@ -68,24 +68,30 @@ public class CacheAspect {
             long expire = annotation.expire();
             //缓存名称
             String name = annotation.cacheId();
-            //先从redis获取
-            String redisKey = name + "::" + className+"::"+methodName+"::"+params;
+            //先从redis获取,得到Key
+            String redisKey = name + ":" + className+":"+methodName+":"+params;
 
-//            String redisValue = redisTemplate.opsForValue().get(redisKey);
+
             String redisValue = redisCacheUtil.getCacheObject(redisKey);
-
-            if (StringUtils.isNotEmpty(redisValue)){
-                log.info("走了缓存~~~,{},{}",className,methodName);
-                log.info("缓存key为,{}",redisKey);
-                return JSON.parseObject(redisValue, AGuoResult.class);
+            //设置互斥锁，避免缓存击穿
+            //懒汉式的双重检查锁机制
+            if (StringUtils.isEmpty(redisValue)){
+                synchronized (CacheAspect.class){
+                    redisValue = redisCacheUtil.getCacheObject(redisKey);
+                    if (StringUtils.isEmpty(redisValue)){
+                        Object proceed = joinPoint.proceed();
+                        redisCacheUtil.setCacheObject(redisKey,JSON.toJSONString(proceed), expire, TimeUnit.SECONDS);
+                        log.info("存入缓存~~~ {},{}",className,methodName);
+                        log.info("缓存key为,{}",redisKey);
+                        return proceed;
+                    }
+                }
             }
-
-            Object proceed = joinPoint.proceed();
-//            redisTemplate.opsForValue().set(redisKey,JSON.toJSONString(proceed), Duration.ofMillis(expire));
-            redisCacheUtil.setCacheObject(redisKey,JSON.toJSONString(proceed), expire, TimeUnit.SECONDS);
-            log.info("存入缓存~~~ {},{}",className,methodName);
+            // 缓存不为空
+            log.info("走了缓存~~~,{},{}",className,methodName);
             log.info("缓存key为,{}",redisKey);
-            return proceed;
+            return JSON.parseObject(redisValue, AGuoResult.class);
+
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }

@@ -53,4 +53,11 @@ public interface  ArticleService {
 //     articles/listArticle","ArticleController","listArticle",null);
     @Transactional
     AGuoResult publish(ArticleParam articleParam);
+
+    /**
+     *
+     * @return
+     */
+    @Transactional
+    int updateArticleViewCount(Long articleId,Integer viewCount);
 }

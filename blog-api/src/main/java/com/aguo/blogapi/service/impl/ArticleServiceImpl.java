@@ -103,7 +103,7 @@ public class ArticleServiceImpl implements ArticleService {
         //在SQL追加语句
         articleQueryWrapper.last("limit " + limit);
         List<Article> articleList = articleMapper.selectList(articleQueryWrapper);
-        return AGuoResult.success(copyList(articleList, true, true));
+        return AGuoResult.success(copyList(articleList, true, false));
     }
 
     @Override
@@ -114,7 +114,7 @@ public class ArticleServiceImpl implements ArticleService {
         //在SQL追加语句
         articleQueryWrapper.last("limit " + limit);
         List<Article> articleList = articleMapper.selectList(articleQueryWrapper);
-        return AGuoResult.success(copyList(articleList, true, true));
+        return AGuoResult.success(copyList(articleList, true, false));
     }
 
     @Override
@@ -176,6 +176,12 @@ public class ArticleServiceImpl implements ArticleService {
         return AGuoResult.success(map);
     }
 
+    @Override
+    public int updateArticleViewCount(Long articleId, Integer viewCount) {
+        return articleMapper.updateArticleViewCountById(articleId,viewCount);
+
+    }
+
 
     private List<ArticleVo> copyList(List<Article> article, boolean isTag, boolean isAuthor) {
         return copyList(article, isTag, isAuthor, false, false);
@@ -201,7 +207,7 @@ public class ArticleServiceImpl implements ArticleService {
         }
         if (isAuthor) {
             Long authorId = article.getAuthorId();
-            articleVo.setAuthor(sysUserService.getUserById(authorId).getNickname());
+            articleVo.setAuthor(sysUserService.getUserVoById(authorId));
         }
         if (isBoby) {
             Long BodyId = article.getBodyId();
