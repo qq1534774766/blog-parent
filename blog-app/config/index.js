@@ -30,7 +30,7 @@ module.exports = {
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
+
     /**
      * Source Maps
      */
@@ -58,7 +58,7 @@ module.exports = {
 		 *	径以 ' / ' 开头，那么在本地是无法找到对应文件。所以如果需要在本地打开打包后的文件，
 		 *	就得修改文件路径。
      */
-    assetsPublicPath: '/',
+    assetsPublicPath: './',
 
     /**
      * Source Maps

@@ -19,6 +19,7 @@ Vue.config.productionTip = false
 
 Vue.use(ElementUI)
 
+
 Object.defineProperty(Vue.prototype, '$_', { value: lodash })
 
 
@@ -33,5 +34,9 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  created() {
+    let pathName = window.document.location.pathname;
+    store.state.publicLocation = pathName.substring(0, pathName.substr(1).indexOf('/') + 1)
+  }
 })

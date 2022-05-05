@@ -12,6 +12,7 @@ export default new Vuex.Store({
     name: '',
     avatar: '',
     token: getToken(),
+    publicLocation:''
   },
   mutations: {
     SET_TOKEN: (state, token) => {
