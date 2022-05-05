@@ -20,6 +20,7 @@ Vue.config.productionTip = false
 Vue.use(ElementUI)
 
 
+
 Object.defineProperty(Vue.prototype, '$_', { value: lodash })
 
 

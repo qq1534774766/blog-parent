@@ -1,5 +1,5 @@
 <template>
-  <el-header class="me-area">
+  <el-header class="me-area" >
     <el-row class="me-header">
 
       <el-col :span="4" class="me-header-left">
@@ -66,7 +66,8 @@
       }
     },
     data() {
-      return {}
+      return {
+      }
     },
     computed: {
       user() {

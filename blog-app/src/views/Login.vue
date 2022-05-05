@@ -5,7 +5,7 @@
       </video>-->
 
     <div class="me-login-box me-login-box-radius">
-      <h1>阿果 登录</h1>
+      <h1>Welcome To You!</h1>
 
       <el-form ref="userForm" :model="userForm" :rules="rules">
         <el-form-item prop="account">

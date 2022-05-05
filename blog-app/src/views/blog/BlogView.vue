@@ -1,20 +1,12 @@
 <template>
   <div class="me-view-body" v-title :data-title="title">
     <el-container class="me-view-container">
-     <!-- <el-aside class="me-area">
-        <ul class="me-operation-list">
-          <li class="me-operation-item">
-            <el-button type="primary" icon="el-icon-edit"></el-button>
-          </li>
-        </ul>
-      </el-aside> -->
       <el-main>
-
         <div class="me-view-card">
           <h1 class="me-view-title">{{article.title}}</h1>
           <div class="me-view-author">
             <a class="">
-              <img class="me-view-picture" :src="article.author.avatar"></img>
+              <img class="me-view-picture" :src="article.author.avatar"/>
             </a>
             <div class="me-view-info">
               <span>{{article.author.nickname}}</span>
@@ -115,7 +107,6 @@
 
         </div>
       </el-main>
-
     </el-container>
   </div>
 </template>
@@ -152,7 +143,12 @@
             value: '',
             toolbarsFlag: false,
             subfield: false,
-            defaultOpen: 'preview'
+            navigation:true,
+            defaultOpen: 'preview',
+            // scrollStyle: true,
+            editable:false,
+            // ishljs: true,
+
           }
         },
         comments: [],
@@ -187,7 +183,6 @@
         viewArticle(that.$route.params.id).then(data => {
           Object.assign(that.article, data.data)
           that.article.editor.value = data.data.body.content
-
           that.getCommentsByArticle()
         }).catch(error => {
           if (error !== 'error') {
