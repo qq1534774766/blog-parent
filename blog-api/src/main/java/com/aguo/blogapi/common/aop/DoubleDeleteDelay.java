@@ -16,7 +16,7 @@ public @interface DoubleDeleteDelay {
         String methodName();
 
         /**
-         * 必须是Json格式的
+         * 必须是Json格式的字符串类
          * @return
          */
         String jsonParam() default "";

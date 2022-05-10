@@ -49,22 +49,16 @@ public class DoubleDeleteDelayAspect {
         String jsonParam = annotation.jsonParam();
         Object result;
         log.info("开始延迟双删");
-        if (StringUtils.isNotEmpty(jsonParam)){
-//            jsonParam = DigestUtils.md5Hex(jsonParam);专业的事交给专业的人做，我们要给负责执行删除缓存方法来执行这个方法，这里不能执行
-            log.info("第一次删除缓存 ↓");
-            // 这里使用的是线程池异步方式，但是似乎这样不对，因为延迟双删要的是即时性。纯粹练手
-            threadService.deleteRedis(cacheId, simpleClassName,redisMethodName,jsonParam);
-            //原方法执行
-            result = joinPoint.proceed();
-            log.info("第二次删除缓存 ↓");
-            threadService.deleteRedis(cacheId, simpleClassName,redisMethodName,jsonParam);
-            return result;
-        }
+//            jsonParam = DigestUtils.md5Hex(jsonParam);专业的事交给专业的人做，让被调用方执行加密，我们要给负责执行删除缓存方法来执行这个方法，这里不能执行
         log.info("第一次删除缓存 ↓");
-        threadService.deleteRedis(cacheId, simpleClassName,redisMethodName,null);
+        // 这里使用的是线程池异步方式，但是似乎这样不对，因为延迟双删要的是即时性。纯粹练手
+        threadService.deleteRedis(cacheId, simpleClassName,
+                redisMethodName,StringUtils.isNotEmpty(jsonParam)?jsonParam:null);
+        //原方法执行
         result = joinPoint.proceed();
         log.info("第二次删除缓存 ↓");
-        threadService.deleteRedis(cacheId, simpleClassName,redisMethodName,null);
+        threadService.deleteRedis(cacheId, simpleClassName,
+                redisMethodName,StringUtils.isNotEmpty(jsonParam)?jsonParam:null);
         return result;
     }
 }
