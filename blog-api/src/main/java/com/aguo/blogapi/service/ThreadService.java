@@ -76,7 +76,6 @@ public class ThreadService {
     @Async("threadPoolTaskExecutor")
     public void deleteRedis(String cacheId, String simpleName, String methodName, Object overallParam) {
 //        articles/listArticle:ArticleController:listArticle:683bcfb2ac2fb2a288f9a40fd5305156
-
         String redisKey = cacheId + ":" + simpleName + ":" + methodName + ":";
         // 包含了 overallParam != null 的判断
         if (overallParam != null) {

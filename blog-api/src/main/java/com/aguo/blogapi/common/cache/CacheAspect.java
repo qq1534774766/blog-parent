@@ -5,6 +5,7 @@ import com.aguo.blogapi.vo.AGuoResult;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -80,7 +81,13 @@ public class CacheAspect {
                     redisValue = redisCacheUtil.getCacheObject(redisKey);
                     if (StringUtils.isEmpty(redisValue)){
                         Object proceed = joinPoint.proceed();
-                        redisCacheUtil.setCacheObject(redisKey,JSON.toJSONString(proceed), expire, TimeUnit.SECONDS);
+                        AGuoResult aGuoResult = (AGuoResult) proceed;
+                        if (aGuoResult!=null&& ObjectUtils.isEmpty(aGuoResult.getData())){
+                            //避免缓存穿透，设置5分钟data为null的key-value
+                            redisCacheUtil.setCacheObject(redisKey,JSON.toJSONString(proceed), 5L, TimeUnit.MINUTES);
+                        }else {
+                            redisCacheUtil.setCacheObject(redisKey, JSON.toJSONString(proceed), expire, TimeUnit.SECONDS);
+                        }
                         log.info("存入缓存~~~ {},{}",className,methodName);
                         log.info("缓存key为,{}",redisKey);
                         return proceed;

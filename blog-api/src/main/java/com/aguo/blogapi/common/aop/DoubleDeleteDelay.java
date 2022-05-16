@@ -11,13 +11,13 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface DoubleDeleteDelay {
-        String cacheId();
-        String simpleClassName();
-        String methodName();
+        String[] cacheId();
+        String[] simpleClassName();
+        String[] methodName();
 
         /**
          * 必须是Json格式的字符串类
          * @return
          */
-        String jsonParam() default "";
+        String[] jsonParam() default "";
 }

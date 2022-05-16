@@ -22,7 +22,7 @@ public class ThreadPoolConf {
         executor.setCorePoolSize(5);
         //设置最大线程数
         executor.setMaxPoolSize(20);
-        //设置活跃线程数
+        //设置活跃线程的时间
         executor.setKeepAliveSeconds(60);
         //配置队列的大小
         executor.setQueueCapacity(Integer.MAX_VALUE);

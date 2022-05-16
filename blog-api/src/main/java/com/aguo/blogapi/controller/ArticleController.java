@@ -33,7 +33,7 @@ public class ArticleController {
      */
     @PostMapping
     @LogAnnotation(module = "文章",operation = "获取所有文章")
-    @Cache(cacheId = "articles/listArticle", expire = 60*5)
+    @Cache(cacheId = "articles/listArticle", expire = 60*60)
     public AGuoResult listArticle(@RequestBody PageParams pageParams){
         return articleService.listArticle(pageParams);
     }
@@ -44,7 +44,7 @@ public class ArticleController {
      * @return
      */
     @PostMapping("hot")
-    @Cache(cacheId = "articles/hotArticles", expire = 60)
+    @Cache(cacheId = "articles/hotArticles", expire = 60*60)
     public AGuoResult hotArticles(@RequestParam(value = "limit", required = false,defaultValue = "5") Integer limit){
         return articleService.hotArticles(limit);
     }
@@ -56,7 +56,7 @@ public class ArticleController {
      * @return
      */
     @PostMapping("new")
-    @Cache(cacheId = "articles/newArticles", expire = 60)
+    @Cache(cacheId = "articles/newArticles", expire = 60*60)
     public AGuoResult newArticles(@RequestParam(value = "limit", required = false,defaultValue = "5") Integer limit){
         return articleService.newArticles(limit);
     }
@@ -67,7 +67,7 @@ public class ArticleController {
      * @return
      */
     @PostMapping("listArchives")
-    @Cache(cacheId = "articles/listArchives", expire = 60)
+    @Cache(cacheId = "articles/listArchives", expire = 60*60)
     public AGuoResult listArchives(){
         return articleService.listArchives();
     }
@@ -97,7 +97,9 @@ public class ArticleController {
      * @return
      */
     @PostMapping("publish")
-    @DoubleDeleteDelay(cacheId = "articles/listArticle",simpleClassName = "ArticleController",methodName = "listArticle")
+    @DoubleDeleteDelay(cacheId = {"articles/listArticle","articles/newArticles","articles/listArchives"}
+    ,simpleClassName = {"ArticleController","ArticleController","ArticleController"}
+    ,methodName = {"listArticle","newArticles","listArchives"})
     public AGuoResult publish(@RequestBody ArticleParam articleParam){
         return articleService.publish(articleParam);
     }
@@ -108,7 +110,9 @@ public class ArticleController {
      * @return
      */
     @RequestMapping("delete/{id}")
-    @DoubleDeleteDelay(cacheId = "articles/listArticle",simpleClassName = "ArticleController",methodName = "listArticle")
+    @DoubleDeleteDelay(cacheId = {"articles/listArticle","articles/newArticles","articles/listArchives"}
+            ,simpleClassName = {"ArticleController","ArticleController","ArticleController"}
+            ,methodName = {"listArticle","newArticles","listArchives"})
     public AGuoResult deleteArticle(@PathVariable("id") Long articleId){
         return articleService.deleteArticleById(articleId);
     }
