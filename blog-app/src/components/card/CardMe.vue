@@ -2,7 +2,7 @@
   <el-card>
     <h1 class="me-author-name">阿果</h1>
     <div class="me-author-description">
-      <span><i class="el-icon-location-outline"></i> 广东&广州</span>&nbsp;
+      <span><i class="iconfont icon-guangdong"></i> 广东&广州</span>&nbsp;
       <span><i class="iconfont icon-java"></i>java上帝架构师</span>
     </div>
     <div class="me-author-tool">
@@ -40,6 +40,9 @@
 </script>
 
 <style scoped>
+.iconfont{
+  font-size: 20px;
+}
   .me-author-name {
     text-align: center;
     font-size: 30px;

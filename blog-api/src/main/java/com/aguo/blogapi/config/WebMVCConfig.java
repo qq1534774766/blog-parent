@@ -53,10 +53,10 @@ public class WebMVCConfig implements WebMvcConfigurer {
      * 如果先拦截并且拦截成功的话，那么就没办法处理跨域问题，那么前端就会报错跨域异常，不会提示未登录的提示
      * @return
      */
-    @Bean
+/*    @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
         urlBasedCorsConfigurationSource.registerCorsConfiguration("/**",corsConfiguration());
         return new CorsFilter(urlBasedCorsConfigurationSource);
-    }
+    }*/
 }

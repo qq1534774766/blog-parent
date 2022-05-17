@@ -17,7 +17,7 @@
           <el-menu-item index="/archives">文章归档</el-menu-item>
 
           <el-col :span="4" :offset="4">
-            <el-menu-item index="/write"><i class="el-icon-edit"></i>写文章</el-menu-item>
+            <el-menu-item index="/write"><i class="iconfont icon-bianjisekuai"></i>写文章</el-menu-item>
           </el-col>
 
         </el-menu>

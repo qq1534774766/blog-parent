@@ -1,6 +1,6 @@
 @font-face {
   font-family: "iconfont"; /* Project id  */
-  src: url('iconfont.ttf?t=1651672834014') format('truetype');
+  src: url('iconfont.ttf?t=1652780860573') format('truetype');
 }
 
 .iconfont {
@@ -11,8 +11,16 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-shijian:before {
+  content: "\e64d";
+}
+
 .icon-icon_qq:before {
   content: "\e605";
+}
+
+.icon-pinglun:before {
+  content: "\e891";
 }
 
 .icon-QQ:before {
@@ -23,11 +31,23 @@
   content: "\e885";
 }
 
+.icon-bianjisekuai:before {
+  content: "\ec7c";
+}
+
+.icon-yueduliang:before {
+  content: "\e608";
+}
+
 .icon-java:before {
   content: "\e623";
 }
 
 .icon-bilibili-fill:before {
   content: "\e66b";
+}
+
+.icon-guangdong:before {
+  content: "\e669";
 }
 
